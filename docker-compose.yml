@@ -7,6 +7,9 @@ services:
     container_name: mongo-server
     ports:
       - 27017:27017
+    volumes:
+      - mongo-server-data:/data/db
+      - mongo-server-config:/data/configdb
     environment:
       - MONGO_INITDB_ROOT_USERNAME:root
       - MONGO_INITDB_ROOT_PASSWORD:Test1234
@@ -30,6 +33,8 @@ services:
     ports:
       - 5672:5672
       - 15672:15672
+    volumes:
+      - rabbit-server-data:/var/lib/rabbitmq
 
   redis:
     image: redis
@@ -39,7 +44,22 @@ services:
     volumes:
       - redis-server-data:/data
 
+  neo4j:
+    image: neo4j
+    container_name: neo4j-server
+    ports:
+      - 7474:7474
+      - 7687:7687
+    volumes:
+      - neo4j-server-data:/data
+      - neo4j-server-logs:/logs
+
 
 volumes:
   sql-server-data:
   redis-server-data:
+  rabbit-server-data:
+  mongo-server-data:
+  mongo-server-config:
+  neo4j-server-data:
+  neo4j-server-logs:
